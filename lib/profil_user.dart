@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tap_material/authentication_service.dart';
 import 'package:tap_material/halaman_utama.dart';
 import 'package:provider/provider.dart';
-
+import 'package:sizer/sizer.dart';
 import 'package:tap_material/list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tap_material/main.dart';
@@ -68,6 +68,27 @@ class _ProfilUserState extends State<ProfilUser> {
     });
   }
 
+  createAlertDialog2(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Data kamu sudah berhasil disimpan"),
+            actions: [
+              ElevatedButton(
+                child: Text("Oke"),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return ProfilUser();
+                  }));
+                },
+              )
+            ],
+          );
+        });
+  }
+
   createAlertDialog(BuildContext context) {
     return showDialog(
         context: context,
@@ -100,313 +121,341 @@ class _ProfilUserState extends State<ProfilUser> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            title: Text(
+              "PROFIL",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
           ),
-          title: Text(
-            "PROFIL",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ),
-        body: ListView(
-          children: [
-            Container(
-              margin: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: 115,
-                    height: 115,
-                    decoration: ShapeDecoration(
-                        color: Colors.grey, shape: CircleBorder()),
-                    child: Icon(
-                      Icons.person,
-                      size: 100,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Column(
+          body: LayoutBuilder(builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hallo !", style: TextStyle(fontSize: 25)),
-                          Text(
-                            _nama,
-                            style: TextStyle(fontSize: 12),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            width: 115,
+                            height: 115,
+                            decoration: ShapeDecoration(
+                                color: Colors.grey, shape: CircleBorder()),
+                            child: Icon(
+                              Icons.person,
+                              size: 100,
+                            ),
                           ),
-                          Text(_nomor, style: TextStyle(fontSize: 10)),
-                          Text(_alamat, style: TextStyle(fontSize: 10)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Hallo !",
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                                  Text(
+                                    _nama,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    _nomor,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    _alamat,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(13),
-              child: Text(
-                "Pengaturan Dasar",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ),
-            Container(
-              height: 150,
-              // color: Colors.amber,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.lock),
+                    Container(
+                      margin: EdgeInsets.all(13),
+                      child: Text(
+                        "Pengaturan Dasar",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Nama",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextField(
-                      controller: namaCont,
-                      decoration: InputDecoration(
-                          hintText: "Masukan Nama Anda",
-                          errorText:
-                              _isEditingName ? 'Nama Harus di Masukan' : null),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: Divider(),
-            ),
-            Container(
-              height: 150,
-              // color: Colors.blue,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.phone),
+                    Container(
+                      height: 150,
+                      // color: Colors.amber,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.lock),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Nama",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextField(
+                              maxLength: 25,
+                              controller: namaCont,
+                              decoration: InputDecoration(
+                                  hintText: "Masukan Nama Anda",
+                                  errorText: _isEditingName
+                                      ? 'Nama Harus di Masukan'
+                                      : null),
+                            ),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Nomor Handphone",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextField(
-                      controller: hpCont,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          hintText: "Masukan Nomor Handphone anda",
-                          errorText: _isEditingPhone
-                              ? 'Nomor Handphone Harus di Masukan'
-                              : null),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: Divider(),
-            ),
-            Container(
-              height: 150,
-              // color: Colors.blue,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.location_on)),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Alamat",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextField(
-                      controller: alamatCont,
-                      decoration: InputDecoration(
-                          hintText: "Masukan Alamat anda",
-                          errorText: _isEditingAddress
-                              ? 'Alamat Harus di Masukan'
-                              : null),
+                    Container(
+                      child: Divider(),
                     ),
-                  )
-                ],
+                    Container(
+                      height: 150,
+                      // color: Colors.blue,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.phone),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Nomor Handphone",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextField(
+                              maxLength: 13,
+                              controller: hpCont,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  hintText: "Masukan Nomor Handphone anda",
+                                  errorText: _isEditingPhone
+                                      ? 'Nomor Handphone Harus di Masukan'
+                                      : null),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Divider(),
+                    ),
+                    Container(
+                      height: 150,
+                      // color: Colors.blue,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(Icons.location_on)),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Alamat",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextField(
+                              maxLength: 25,
+                              controller: alamatCont,
+                              decoration: InputDecoration(
+                                  hintText: "Masukan Alamat anda",
+                                  errorText: _isEditingAddress
+                                      ? 'Alamat Harus di Masukan'
+                                      : null),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Divider(),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        createAlertDialog2;
+                        _updateNama(namaCont.text);
+                        _updateNomor(hpCont.text);
+                        _updateAlamat(alamatCont.text);
+                        _muatUpdate();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 250,
+                        child: Center(
+                          child: Text(
+                            "Masukkan Data dan Perbaharui",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(100)),
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(13),
+                      child: Text(
+                        "Tentang Kami",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _openFB();
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              child: Image(
+                                image: AssetImage("assets/images/Logo FB.png"),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _openIg();
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              child: Image(
+                                image:
+                                    AssetImage("assets/images/Logo taptap.png"),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _openIGB();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                border:
+                                    Border.all(color: Colors.black, width: 0.5),
+                              ),
+                              height: 70,
+                              width: 70,
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    "assets/images/Logo Betukang Remade.png"),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 70),
+                    ElevatedButton(
+                      child: Text("Keluar"),
+                      onPressed: () {
+                        context.read<AuthenticationService>().signOut();
+                        createAlertDialog(context);
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              child: Divider(),
-            ),
-            GestureDetector(
-              onTap: () {
-                _updateNama(namaCont.text);
-                _updateNomor(hpCont.text);
-                _updateAlamat(alamatCont.text);
-                _muatUpdate();
-              },
-              child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width * 0.5,
-                color: Colors.blueAccent,
-                child: Center(
-                    child: Text(
-                  "Masukan data dan perbarui",
-                  style: TextStyle(color: Colors.white),
-                )),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(13),
-              child: Text(
-                "Tentang Kami",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                _openIg();
-              },
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(child: Text("Kunjungi Instagram kami")),
-                decoration: BoxDecoration(
-                    color: Colors.tealAccent,
-                    borderRadius: BorderRadius.circular(100)),
-                margin: EdgeInsets.symmetric(horizontal: 10),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(),
-            ),
-            GestureDetector(
-              onTap: () {
-                _openFB();
-              },
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(child: Text("Kunjungi Facebook kami")),
-                decoration: BoxDecoration(
-                    color: Colors.tealAccent,
-                    borderRadius: BorderRadius.circular(100)),
-                margin: EdgeInsets.symmetric(horizontal: 10),
-              ),
-            ),
-            
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(),
-            ),
-            GestureDetector(
-              onTap: () {
-                _openIGB();
-              },
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(child: Text("Kunjungi Instagram Betukang.id")),
-                decoration: BoxDecoration(
-                    color: Colors.tealAccent,
-                    borderRadius: BorderRadius.circular(100)),
-                margin: EdgeInsets.symmetric(horizontal: 10),
-              ),
-            ),
-            
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(),
-            ),
-            ElevatedButton(
-              child: Text("Keluar"),
-              onPressed: () {
-                context.read<AuthenticationService>().signOut();
-                createAlertDialog(context);
-              },
-            )
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 2,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(0xff79B4B7),
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(.60),
-          selectedFontSize: 14,
-          unselectedFontSize: 14,
-          items: [
-            BottomNavigationBarItem(
-              icon: IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return HalamanEmpat();
-                  }));
-                },
-                icon: Icon(Icons.home),
-              ),
-              label: ("Beranda"),
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
+            );
+          }),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: 2,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Color(0xff79B4B7),
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white.withOpacity(.60),
+            selectedFontSize: 14,
+            unselectedFontSize: 14,
+            items: [
+              BottomNavigationBarItem(
+                icon: IconButton(
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return listitem();
+                      return HalamanEmpat();
                     }));
                   },
-                  icon: Icon(Icons.shopping_cart_outlined)),
-              label: ("Memesan"),
-            ),
-            BottomNavigationBarItem(
-              icon: IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return ProfilUser();
-                    }));
-                  },
-                  icon: Icon(Icons.person)),
-              label: ("Akun"),
-            ),
-          ],
-        ),
-      ),
-    );
+                  icon: Icon(Icons.home),
+                ),
+                label: ("Beranda"),
+              ),
+              BottomNavigationBarItem(
+                icon: IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return listitem();
+                      }));
+                    },
+                    icon: Icon(Icons.shopping_cart_outlined)),
+                label: ("Memesan"),
+              ),
+              BottomNavigationBarItem(
+                icon: IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ProfilUser();
+                      }));
+                    },
+                    icon: Icon(Icons.person)),
+                label: ("Akun"),
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -414,6 +463,7 @@ void _openIg() async {
   var url = 'https://www.instagram.com/taptap_material/';
   await launch(url);
 }
+
 void _openIGB() async {
   var url = 'https://www.instagram.com/betukang.id/';
   await launch(url);

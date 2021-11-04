@@ -52,7 +52,7 @@ class _RegistrasiState extends State<Registrasi> {
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
-                    return AuthenticationWrapper();
+                    return Login();
                   }));
                 },
               )
