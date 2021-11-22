@@ -20,11 +20,18 @@ class HalamanDelapan extends StatelessWidget {
         home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Text("SEMUA MITRA",
+            title: Text("Semua Mitra",
                 style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.bold)),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              icon: Icon(Icons.arrow_back),
+              color: Colors.black,
+            ),
           ),
           body: GridView.builder(
             itemCount: mitras.length,

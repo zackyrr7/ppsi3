@@ -7,12 +7,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tap_material/detail_barang.dart';
 import 'package:tap_material/halaman_utama.dart';
-
 import 'package:tap_material/list.dart';
 import 'package:tap_material/models/mitra.dart';
 import 'package:tap_material/profil_user.dart';
-import 'package:tap_material/widget/widget_prodok_toko.dart';
-import 'package:tap_material/widget/widget_produk.dart';
+
 
 class ProfilToko extends StatefulWidget {
   final Mitra mitra;

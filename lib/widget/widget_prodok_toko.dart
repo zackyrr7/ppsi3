@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tap_material/detail_barang.dart';
 import 'package:tap_material/models/barang_mitra.dart';
-import 'package:tap_material/models/mitra.dart';
-import 'package:tap_material/models/product.dart';
 import 'package:sizer/sizer.dart';
 
 class widgetProdukMitra extends StatelessWidget {
@@ -41,9 +39,11 @@ class widgetProdukMitra extends StatelessWidget {
                   color: Colors.black,
                   height: MediaQuery.of(context).size.height * 0.15,
                   width: MediaQuery.of(context).size.width * 0.44,
-                  child: Image.asset(
-                    barangMitra1.image,
-                    fit: BoxFit.cover,
+                  child: Center(
+                    child: Image.asset(
+                      barangMitra1.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

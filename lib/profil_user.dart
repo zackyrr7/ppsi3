@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:tap_material/authentication_service.dart';
 import 'package:tap_material/halaman_utama.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 import 'package:tap_material/list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tap_material/main.dart';

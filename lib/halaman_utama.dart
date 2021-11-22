@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:tap_material/ai.dart';
 
 import 'package:tap_material/list.dart';
 
@@ -15,9 +16,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tap_material/widget/widget_mitra.dart';
 import 'package:tap_material/widget/widget_produk.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
-
 
 void main() {
   runApp(const HalamanEmpat());
@@ -59,6 +57,39 @@ class _HalamanEmpatState extends State<HalamanEmpat> {
           margin: EdgeInsets.all(19),
           child: ListView(
             children: <Widget>[
+              Container(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.black)),
+                // color: Colors.yellow,
+                height: 150,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Bingung",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Barang yang dibutuhkan dan perkiraan harganya??",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      "Gunakan fitur untuk menghitung barang dan harga yang dibutuhkan",
+                      style: TextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return HomeScreen();
+                          }));
+                        },
+                        child: Text("Klik disini"))
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -88,12 +119,14 @@ class _HalamanEmpatState extends State<HalamanEmpat> {
                 ],
               ),
               Container(
-                height: 400,
+                color: Color(0xff79B4B7),
+                height: 200,
                 child: Expanded(
                     child: GridView.builder(
+                  scrollDirection: Axis.horizontal,
                   itemCount: 6,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, mainAxisSpacing: 2),
+                      crossAxisCount: 1, mainAxisSpacing: 2),
                   itemBuilder: (context, index) => widgetmitra(
                     mitra: mitras[index],
                     press: () => Navigator.push(
@@ -133,12 +166,14 @@ class _HalamanEmpatState extends State<HalamanEmpat> {
                 ],
               ),
               Container(
-                height: 400,
+                color: Color(0xff79B4B7),
+                height: 190,
                 child: Expanded(
                     child: GridView.builder(
+                  scrollDirection: Axis.horizontal,
                   itemCount: 6,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: 1,
                     childAspectRatio: MediaQuery.of(context).size.width /
                         (MediaQuery.of(context).size.height / 1.9),
                   ),
@@ -204,4 +239,3 @@ void _openWhatsAppChat() async {
   var url = 'https://wa.me/$phoneNumber?text=$kalimat';
   await launch(url);
 }
-
